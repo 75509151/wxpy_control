@@ -160,6 +160,7 @@ class Cka(object):
                 if result.find('No such file or directory') != -1:
                     #log.info('tunnel checking ok, sleeping\n', INFO)
                     pass
+                #TODO: 需要搞懂这段代码的含义
                 elif result.count(self.reset_file) == 1:
                     log.debug("[check]reset command:%s" % repr(result))
                     log.info("[check]recv reboot command, reset tunnel, "
