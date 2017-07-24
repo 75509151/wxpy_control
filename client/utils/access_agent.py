@@ -10,7 +10,7 @@ import socket
 import struct
 import time
 import logging
-from .kiosk_info import get_kiosk_id
+from kiosk_info import get_kiosk_id
 
 #                    Configuration.
 #======================================================
@@ -512,9 +512,14 @@ if __name__ == '__main__':
     PORT = 5002
     log = logging.getLogger(__name__)
 
+    ch = logging.StreamHandler()
+    ch.setLevel(logging.DEBUG)
+    log.addHandler(ch)
+    log.setLevel(logging.DEBUG)
+
     while True:
         try:
-            kiosk = Kiosk(get_kiosk_id(), "services.kiosk_api", log, HOST, PORT)
+            kiosk = Kiosk(get_kiosk_id(), "kiosk_api", log, HOST, PORT)
             kiosk.run()
         except Exception, ex:
             log.error("error in main: %s" % ex)

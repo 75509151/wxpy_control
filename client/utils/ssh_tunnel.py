@@ -21,7 +21,7 @@ import os
 import time
 import pexpect
 import logging
-from .kiosk_info import get_kiosk_id
+from kiosk_info import get_kiosk_id
 
 # Config for cka.
 MAX_DUP = 120
@@ -58,6 +58,7 @@ class Cka(object):
     def __init__(self, cka_type):
         """ init """
         self.hostname = get_kiosk_id()
+        log.info("kiosk_id: %s" % self.hostname)
         # the type is 1 or 2, 1 as ssh tunnel, 2 as ssh reverse tunnel
         self._type = cka_type
         # the last log information recorded
@@ -221,8 +222,8 @@ class Cka1(Cka):
     def __init__(self):
         """ Reverse ssh """
         super(Cka1, self).__init__(cka_type=1)
-        self.reset_file = 'reset/%s' % self.hostname
-        self.alive_file = 'online/%s' % self.hostname
+        self.reset_file = '~/reset/%s' % self.hostname
+        self.alive_file = '~/online/%s' % self.hostname
 
     def get_cmd(self):
         """ Get linux command. """
@@ -232,7 +233,7 @@ class Cka1(Cka):
         #                                        self.hostname2port(1),
         #                                        TUNNEL_USER,
         #                                        G_TUNNEL_SERVER)
-        return "ssh  -R %s:localhost:22 " \
+        return "ssh -R %s:localhost:22 " \
                "-R %s:localhost:%s %s@%s" % (
                    self.hostname2port(2),
                    self.hostname2port(1),
@@ -244,7 +245,8 @@ class Cka1(Cka):
         """ Kill the tunnel. """
         log.debug("kill tunnel")
         try:
-            os.system('pkill -9 -f "ssh -i %s -R"' % PEM_FILE_PATH)
+            # os.system('pkill -9 -f "ssh -i %s -R"' % PEM_FILE_PATH)
+            os.system('pkill -9 -f "ssh -R "')
             self.close_tunnel()
         except Exception, ex:
             log.info("[killer]kill failed: %s" % str(ex))

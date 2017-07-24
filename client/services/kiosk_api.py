@@ -11,5 +11,5 @@ log.setLevel(logging.DEBUG)
 
 
 def kiosk_cmd_test(params):
-    log.info("kiosk_cmd_test in some dir: %s" % params)
+    log.info("kiosk_cmd_test in another dir: %s" % params)
     return True

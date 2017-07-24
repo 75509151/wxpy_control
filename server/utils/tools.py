@@ -1,7 +1,14 @@
-from .access_agent import Server as AgentServer
+from access_agent import Server as AgentServer
 import logging
 
+# init log
 log = logging.getLogger(__name__)
+
+
+ch = logging.StreamHandler()
+ch.setLevel(logging.DEBUG)
+log.addHandler(ch)
+log.setLevel(logging.DEBUG)
 
 
 def _kioskid2port(kiosk_id, prefix=1):
@@ -59,3 +66,7 @@ def call_kiosk(device_id, call_method, params, access_agent_host, timeout=30):
             result = {"state": "error", "data": str(ex)}
     del agent_service
     return result
+
+
+if __name__ == '__main__':
+    call_kiosk("A022", "kiosk_cmd_test", params={"arg1": "1111", "arg2": "222"}, access_agent_host="127.0.0.1")
